@@ -9,7 +9,7 @@ const stats = [
   { value: '20+', label: 'Projects Delivered' },
   { value: '30+', label: 'Happy Clients' },
   { value: '3', label: 'Core Services' },
-  { value: '1+', label: 'Year of Experience' },
+  { value: '3+', label: 'Years of Experience' },
 ]
 
 export const About = () => {
