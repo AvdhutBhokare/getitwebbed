@@ -51,45 +51,7 @@ export default function AboutPage() {
           </motion.p>
         </header>
 
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="relative aspect-square rounded-[3rem] overflow-hidden"
-          >
-            <Image
-              src="https://picsum.photos/seed/agency/1000/1000"
-              alt="Our Workspace"
-              fill
-              className="object-cover"
-              data-ai-hint="tech office"
-            />
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <h2 className="text-4xl md:text-5xl font-headline font-bold">Driven by Innovation, Defined by Impact.</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              We started with a simple belief: that technology should be a multiplier for business growth, not a bottleneck. Our team of designers and engineers work in tight feedback loops to ensure that every pixel and every line of code serves a strategic purpose.
-            </p>
-            <div className="grid grid-cols-2 gap-8">
-              <div>
-                <h4 className="text-primary font-bold mb-2">Philosophy</h4>
-                <p className="text-sm text-muted-foreground">Minimalism in design, complexity in engineering.</p>
-              </div>
-              <div>
-                <h4 className="text-secondary font-bold mb-2">Goal</h4>
-                <p className="text-sm text-muted-foreground">To become India's leading studio for high-performance digital products.</p>
-              </div>
-            </div>
-          </motion.div>
-        </section>
-
-        {/* Founders Section */}
+        {/* Founders Section - Moved Up */}
         <section className="py-24 border-t border-border mb-32">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-headline font-bold mb-4">Meet the Founders</h2>
@@ -135,6 +97,45 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </div>
+        </section>
+
+        {/* Innovation Section - Moved Down */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="relative aspect-square rounded-[3rem] overflow-hidden"
+          >
+            <Image
+              src="https://picsum.photos/seed/agency/1000/1000"
+              alt="Our Workspace"
+              fill
+              className="object-cover"
+              data-ai-hint="tech office"
+            />
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-8"
+          >
+            <h2 className="text-4xl md:text-5xl font-headline font-bold">Driven by Innovation, Defined by Impact.</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              We started with a simple belief: that technology should be a multiplier for business growth, not a bottleneck. Our team of designers and engineers work in tight feedback loops to ensure that every pixel and every line of code serves a strategic purpose.
+            </p>
+            <div className="grid grid-cols-2 gap-8">
+              <div>
+                <h4 className="text-primary font-bold mb-2">Philosophy</h4>
+                <p className="text-sm text-muted-foreground">Minimalism in design, complexity in engineering.</p>
+              </div>
+              <div>
+                <h4 className="text-secondary font-bold mb-2">Goal</h4>
+                <p className="text-sm text-muted-foreground">To become India's leading studio for high-performance digital products.</p>
+              </div>
+            </div>
+          </motion.div>
         </section>
 
         <section className="py-24 border-t border-border">
