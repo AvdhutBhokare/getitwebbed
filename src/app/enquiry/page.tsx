@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useState } from 'react'
@@ -162,10 +163,11 @@ export default function EnquiryPage() {
               <div className="space-y-6 p-8 bg-muted/20 rounded-3xl">
                 <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">05. Services Required*</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {['End-to-End Brand Establishment', 'Web Development', 'Mobile App Development', 'IoT Project', 'College Project', 'UI/UX Design'].map((service) => (
+                  {['End-to-End Brand Establishment', 'Web Development', 'Mobile App Development', 'IoT Project', 'College Projects', 'UI/UX Design'].map((service) => (
                     <div key={service} className="flex items-center space-x-3">
                       <Checkbox
                         id={service}
+                        checked={watch('services')?.includes(service)}
                         onCheckedChange={(checked) => {
                           const current = watch('services') || []
                           if (checked) setValue('services', [...current, service])

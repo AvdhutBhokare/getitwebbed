@@ -1,3 +1,4 @@
+
 "use client"
 
 import React from 'react'
@@ -8,7 +9,7 @@ import Link from 'next/link'
 const services = [
   {
     id: '01',
-    title: 'Brand Establishment',
+    title: 'End-to-End Brand Establishment',
     icon: Palette,
     items: ['End-to-End Branding', 'Visual Identity', 'Brand Guidelines', 'Logo Design', 'Digital Presence'],
     color: 'secondary'

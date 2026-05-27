@@ -143,7 +143,7 @@ export const Hero = () => {
               transition={{ delay: 0.6, duration: 0.8, ease: "circOut" }}
               className="block"
             >
-              & EXPERIENCES
+              & EXPERIENCES.
             </motion.span>
           </h1>
 
