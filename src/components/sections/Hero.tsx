@@ -115,7 +115,7 @@ export const Hero = () => {
             className="mb-8"
           >
             <span className="inline-block py-1 px-4 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium tracking-widest uppercase">
-              Web · Apps · IoT
+              Web · Apps · IoT · Branding
             </span>
           </motion.div>
 
@@ -134,7 +134,7 @@ export const Hero = () => {
               transition={{ delay: 0.4, duration: 0.8, ease: "circOut" }}
               className="block text-outline text-primary/80"
             >
-              DIGITAL
+              BRANDS
             </motion.span>
             <motion.span
               initial={{ y: "100%", opacity: 0 }}
@@ -142,7 +142,7 @@ export const Hero = () => {
               transition={{ delay: 0.6, duration: 0.8, ease: "circOut" }}
               className="block"
             >
-              EXPERIENCES.
+              & EXPERIENCES.
             </motion.span>
           </h1>
 
@@ -150,9 +150,9 @@ export const Hero = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 1 }}
-            className="text-lg md:text-2xl text-muted-foreground max-w-2xl mb-12 font-medium"
+            className="text-lg md:text-2xl text-muted-foreground max-w-3xl mb-12 font-medium"
           >
-            Built for impact, designed for scale. We help brands navigate the digital landscape with precision engineering and creative flair.
+            End-to-end brand establishment with precision engineering. We help visionaries navigate the digital landscape and build iconic brands from the ground up.
           </motion.p>
 
           <motion.div
@@ -179,7 +179,6 @@ export const Hero = () => {
         transition={{ delay: 2, duration: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground/50 text-xs uppercase tracking-widest font-bold"
       >
-        <span>scroll</span>
         <motion.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 1.5 }}

@@ -13,6 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { Slider } from '@/components/ui/slider'
 import { Mail, Phone, MapPin, Loader2, Sparkles, CheckCircle2 } from 'lucide-react'
 import { aiProjectScopeRecommendation, type ProjectScopeRecommendationOutput } from '@/ai/flows/ai-project-scope-recommendation'
 import { toast } from '@/hooks/use-toast'
@@ -24,7 +25,7 @@ const formSchema = z.object({
   company: z.string().optional(),
   services: z.array(z.string()).min(1, 'Please select at least one service'),
   projectType: z.string().min(1, 'Please select a project type'),
-  budget: z.string().min(1, 'Please select a budget range'),
+  budget: z.number().min(5000, 'Minimum budget is ₹5,000'),
   timeline: z.string().min(1, 'Please select a timeline'),
   description: z.string().min(20, 'Please describe your project in at least 20 characters'),
   source: z.string().min(1, 'Please let us know how you found us'),
@@ -43,13 +44,14 @@ export default function EnquiryPage() {
     defaultValues: {
       services: [],
       projectType: 'new',
-      budget: '',
+      budget: 15000,
       timeline: '',
       source: '',
     }
   })
 
   const projectDesc = watch('description')
+  const budgetValue = watch('budget')
 
   const handleAiScope = async () => {
     if (!projectDesc || projectDesc.length < 20) {
@@ -119,7 +121,7 @@ export default function EnquiryPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-6xl md:text-8xl font-headline font-bold mb-6"
           >
-            Let's Build Together<span className="text-primary">.</span>
+            Let's Build Your Brand<span className="text-primary">.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -161,12 +163,12 @@ export default function EnquiryPage() {
               <div className="space-y-6 p-8 bg-muted/20 rounded-3xl">
                 <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">05. Services Required*</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {['Web Development', 'Mobile App Development', 'IoT Project', 'UI/UX Design', 'Complete Digital Solution'].map((service) => (
+                  {['Brand Establishment', 'Web Development', 'Mobile App Development', 'IoT Project', 'College Project', 'UI/UX Design'].map((service) => (
                     <div key={service} className="flex items-center space-x-3">
                       <Checkbox
                         id={service}
                         onCheckedChange={(checked) => {
-                          const current = watch('services')
+                          const current = watch('services') || []
                           if (checked) setValue('services', [...current, service])
                           else setValue('services', current.filter(s => s !== service))
                         }}
@@ -178,7 +180,7 @@ export default function EnquiryPage() {
                 {errors.services && <p className="text-red-500 text-xs">{errors.services.message}</p>}
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                 <div className="space-y-4">
                   <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">06. Project Type*</Label>
                   <RadioGroup defaultValue="new" onValueChange={(v) => setValue('projectType', v)}>
@@ -193,21 +195,28 @@ export default function EnquiryPage() {
                   </RadioGroup>
                 </div>
 
-                <div className="space-y-4">
-                  <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">07. Budget Range*</Label>
-                  <Select onValueChange={(v) => setValue('budget', v)}>
-                    <SelectTrigger className="bg-muted border-none rounded-xl h-12">
-                      <SelectValue placeholder="Select Budget" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="basic">₹30k - ₹75k</SelectItem>
-                      <SelectItem value="std">₹75k - ₹1.5L</SelectItem>
-                      <SelectItem value="pro">₹1.5L - ₹3L</SelectItem>
-                      <SelectItem value="ent">₹3L+</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <div className="md:col-span-2 space-y-6">
+                  <div className="flex justify-between items-end">
+                    <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">07. Budget Range*</Label>
+                    <span className="text-primary font-bold text-lg">₹{budgetValue.toLocaleString()} {budgetValue >= 500000 ? '+' : ''}</span>
+                  </div>
+                  <Slider
+                    defaultValue={[15000]}
+                    max={500000}
+                    min={5000}
+                    step={1000}
+                    onValueChange={(v) => setValue('budget', v[0])}
+                    className="py-4"
+                  />
+                  <div className="flex justify-between text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
+                    <span>min ₹5,000</span>
+                    <span>max ₹5,00,000+</span>
+                  </div>
+                  {errors.budget && <p className="text-red-500 text-xs">{errors.budget.message}</p>}
                 </div>
+              </div>
 
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
                   <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">08. Timeline*</Label>
                   <Select onValueChange={(v) => setValue('timeline', v)}>
@@ -219,6 +228,20 @@ export default function EnquiryPage() {
                       <SelectItem value="1m">1 Month</SelectItem>
                       <SelectItem value="3m">3 Months</SelectItem>
                       <SelectItem value="flex">Flexible</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-4">
+                  <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">10. How did you hear about us?*</Label>
+                  <Select onValueChange={(v) => setValue('source', v)}>
+                    <SelectTrigger className="bg-muted border-none rounded-xl h-12">
+                      <SelectValue placeholder="Select Channel" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="search">Google Search</SelectItem>
+                      <SelectItem value="social">Social Media</SelectItem>
+                      <SelectItem value="ref">Referral</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -284,21 +307,6 @@ export default function EnquiryPage() {
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
-
-              <div className="space-y-4">
-                <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">10. How did you hear about us?*</Label>
-                <Select onValueChange={(v) => setValue('source', v)}>
-                  <SelectTrigger className="bg-muted border-none rounded-xl h-12">
-                    <SelectValue placeholder="Select Channel" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="search">Google Search</SelectItem>
-                    <SelectItem value="social">Social Media</SelectItem>
-                    <SelectItem value="ref">Referral</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
               </div>
 
               <Button type="submit" disabled={isSubmitting} className="w-full h-16 text-lg font-bold bg-primary text-background hover:bg-primary/90 rounded-2xl mt-12">
