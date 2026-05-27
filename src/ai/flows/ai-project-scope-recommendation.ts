@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview An AI agent that analyzes a project description and recommends a suitable technology stack and core features.
@@ -45,7 +46,7 @@ Your task is to analyze a client's project description and provide an initial re
 Consider the following services GetItWebbed offers:
 - Brand Establishment: End-to-End Branding, Visual Identity, Brand Guidelines, Logo Design
 - Web Development: Landing Pages, E-Commerce, SaaS Dashboards, CMS Integration, UI/UX Design
-- App Development: Android Apps, iOS Apps, Flutter/React Native, Backend APIs
+- App Development: Android Apps, Flutter/React Native, Backend APIs
 - College Projects: Academic project implementation, documentation, and technical support
 - IoT Projects: Sensor Integration, Smart Home Systems, Industrial Automation, Arduino/Raspberry Pi, Cloud Dashboards
 

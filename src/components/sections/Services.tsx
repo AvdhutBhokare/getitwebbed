@@ -25,7 +25,7 @@ const services = [
     id: '03',
     title: 'App Development',
     icon: Smartphone,
-    items: ['Android Apps', 'iOS Apps', 'Flutter / React Native', 'Backend APIs', 'College Projects'],
+    items: ['Android Apps', 'Flutter / React Native', 'Backend APIs', 'College Projects'],
     color: 'secondary'
   },
   {
