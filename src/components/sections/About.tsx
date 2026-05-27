@@ -6,7 +6,7 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 
 const stats = [
-  { value: '50+', label: 'Projects Delivered' },
+  { value: '20+', label: 'Projects Delivered' },
   { value: '30+', label: 'Happy Clients' },
   { value: '3', label: 'Core Services' },
   { value: '1+', label: 'Year of Experience' },
