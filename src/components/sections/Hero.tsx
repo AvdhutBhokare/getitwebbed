@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useEffect, useRef } from 'react'
@@ -122,7 +123,7 @@ export const Hero = () => {
           <h1 className="text-6xl md:text-[120px] leading-[1] font-headline font-bold mb-10 tracking-tighter">
             <motion.span
               initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
+              animate={{ y: 0 }}
               transition={{ delay: 0.2, duration: 0.8, ease: "circOut" }}
               className="block"
             >
@@ -142,7 +143,7 @@ export const Hero = () => {
               transition={{ delay: 0.6, duration: 0.8, ease: "circOut" }}
               className="block"
             >
-              & EXPERIENCES.
+              & EXPERIENCES
             </motion.span>
           </h1>
 
