@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useState } from 'react'
@@ -152,7 +151,7 @@ export default function EnquiryPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">03. Phone Number</Label>
-                  <Input {...register('phone')} className="h-14 bg-muted border-none rounded-xl" placeholder="+91 98765 43210" />
+                  <Input {...register('phone')} className="h-14 bg-muted border-none rounded-xl" placeholder="+91 98670 43280" />
                 </div>
                 <div className="space-y-2">
                   <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">04. Company Name</Label>
@@ -326,7 +325,7 @@ export default function EnquiryPage() {
                   </div>
                   <div>
                     <p className="text-xs font-bold uppercase text-muted-foreground mb-1">Email</p>
-                    <p className="font-medium">contact@getitwebbed.com</p>
+                    <p className="font-medium">getitwebbed22@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -335,7 +334,7 @@ export default function EnquiryPage() {
                   </div>
                   <div>
                     <p className="text-xs font-bold uppercase text-muted-foreground mb-1">Phone</p>
-                    <p className="font-medium">+91 98765 43210</p>
+                    <p className="font-medium">+91 98670 43280</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -350,7 +349,7 @@ export default function EnquiryPage() {
               </div>
               
               <Button asChild className="w-full mt-10 bg-green-500 hover:bg-green-600 text-white rounded-xl h-12">
-                <a href="https://wa.me/919876543210" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
+                <a href="https://wa.me/919867043280" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
               </Button>
             </div>
 

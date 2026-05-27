@@ -16,14 +16,16 @@ export const Footer = () => {
             </p>
             <div className="flex gap-4">
               {[
-                { icon: Instagram, href: "#" },
-                { icon: Linkedin, href: "#" },
+                { icon: Instagram, href: "https://www.instagram.com/gridrunner22/" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/manasgarge/" },
                 { icon: Twitter, href: "#" },
-                { icon: Github, href: "#" }
+                { icon: Github, href: "https://github.com/ManasGarge22" }
               ].map((social, i) => (
                 <a
                   key={i}
                   href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all duration-300 group"
                 >
                   <social.icon className="w-5 h-5 group-hover:scale-110 transition-transform" />
@@ -47,11 +49,11 @@ export const Footer = () => {
             <ul className="space-y-4 text-muted-foreground">
               <li>Pune, Maharashtra, India</li>
               <li>
-                <a href="mailto:contact@getitwebbed.com" className="hover:text-primary transition-colors">
-                  contact@getitwebbed.com
+                <a href="mailto:getitwebbed22@gmail.com" className="hover:text-primary transition-colors">
+                  getitwebbed22@gmail.com
                 </a>
               </li>
-              <li>+91 98765 43210</li>
+              <li>+91 98670 43280</li>
             </ul>
           </div>
         </div>
