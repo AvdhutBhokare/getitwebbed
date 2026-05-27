@@ -84,7 +84,6 @@ export default function EnquiryPage() {
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true)
-    // Simulate Firebase storage
     await new Promise(r => setTimeout(r, 2000))
     console.log('Form Submitted to Firestore:', data)
     setIsSubmitting(false)
@@ -121,7 +120,7 @@ export default function EnquiryPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-6xl md:text-8xl font-headline font-bold mb-6"
           >
-            Let's Build Your Brand<span className="text-primary">.</span>
+            Build Your Brand<span className="text-primary">.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -163,7 +162,7 @@ export default function EnquiryPage() {
               <div className="space-y-6 p-8 bg-muted/20 rounded-3xl">
                 <Label className="text-sm font-bold uppercase tracking-widest text-muted-foreground">05. Services Required*</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {['Brand Establishment', 'Web Development', 'Mobile App Development', 'IoT Project', 'College Project', 'UI/UX Design'].map((service) => (
+                  {['End-to-End Brand Establishment', 'Web Development', 'Mobile App Development', 'IoT Project', 'College Project', 'UI/UX Design'].map((service) => (
                     <div key={service} className="flex items-center space-x-3">
                       <Checkbox
                         id={service}

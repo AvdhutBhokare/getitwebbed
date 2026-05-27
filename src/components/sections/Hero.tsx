@@ -119,7 +119,7 @@ export const Hero = () => {
             </span>
           </motion.div>
 
-          <h1 className="text-6xl md:text-[120px] leading-[0.9] font-headline font-bold mb-10 tracking-tighter">
+          <h1 className="text-6xl md:text-[120px] leading-[1] font-headline font-bold mb-10 tracking-tighter">
             <motion.span
               initial={{ y: "100%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -132,7 +132,7 @@ export const Hero = () => {
               initial={{ y: "100%", opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8, ease: "circOut" }}
-              className="block text-outline text-primary/80"
+              className="block text-outline text-primary py-2"
             >
               BRANDS
             </motion.span>
@@ -152,7 +152,7 @@ export const Hero = () => {
             transition={{ delay: 1, duration: 1 }}
             className="text-lg md:text-2xl text-muted-foreground max-w-3xl mb-12 font-medium"
           >
-            End-to-end brand establishment with precision engineering. We help visionaries navigate the digital landscape and build iconic brands from the ground up.
+            End-to-end brand establishment with precision engineering. We specialize in building iconic brands and delivering high-impact digital solutions from the ground up.
           </motion.p>
 
           <motion.div
@@ -163,7 +163,7 @@ export const Hero = () => {
           >
             <Button asChild size="lg" className="h-14 px-10 rounded-full bg-primary text-background hover:bg-primary/90 text-lg font-bold group">
               <Link href="/work">
-                View Our Work <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                Our Portfolio <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
             <Button asChild variant="ghost" size="lg" className="h-14 px-10 rounded-full text-foreground hover:bg-muted text-lg border border-border">

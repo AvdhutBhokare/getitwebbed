@@ -98,6 +98,7 @@ html, body {
 
 /* Typography Enhancements */
 .text-outline {
-  -webkit-text-stroke: 1px currentColor;
-  color: transparent;
+  -webkit-text-stroke: 1.5px currentColor;
+  -webkit-text-fill-color: transparent;
+  color: inherit;
 }
