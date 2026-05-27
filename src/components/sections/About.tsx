@@ -1,3 +1,4 @@
+
 "use client"
 
 import React from 'react'
@@ -8,7 +9,7 @@ const stats = [
   { value: '50+', label: 'Projects Delivered' },
   { value: '30+', label: 'Happy Clients' },
   { value: '3', label: 'Core Services' },
-  { value: '2+', label: 'Years of Experience' },
+  { value: '1+', label: 'Year of Experience' },
 ]
 
 export const About = () => {
@@ -40,7 +41,7 @@ export const About = () => {
             className="space-y-6"
           >
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Founded in Pune in 2022, GetItWebbed is a collective of visionary developers and designers. We specialize in building robust web architectures, intuitive mobile applications, and intelligent IoT systems that bridge the gap between hardware and software.
+              Founded in Pune in 2025, GetItWebbed is a collective of visionary developers and designers. We specialize in building robust web architectures, intuitive mobile applications, and intelligent IoT systems that bridge the gap between hardware and software.
             </p>
             <p className="text-xl text-muted-foreground leading-relaxed">
               Our approach is rooted in transparency and performance. Every line of code is written with scalability in mind, ensuring your digital products grow alongside your business.

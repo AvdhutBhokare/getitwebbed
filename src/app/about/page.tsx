@@ -1,8 +1,33 @@
+
 "use client"
 
 import React from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
+import { Instagram, Linkedin, Github } from 'lucide-react'
+
+const founders = [
+  {
+    name: "Manas Garge",
+    role: "Co-Founder & Data Engineer",
+    image: "https://picsum.photos/seed/manas/600/800",
+    socials: {
+      insta: "#",
+      linkedin: "#",
+      github: "#"
+    }
+  },
+  {
+    name: "Avdhut Bhokare",
+    role: "Co-Founder & Developer",
+    image: "https://picsum.photos/seed/avdhut/600/800",
+    socials: {
+      insta: "#",
+      linkedin: "#",
+      github: "#"
+    }
+  }
+]
 
 export default function AboutPage() {
   return (
@@ -22,7 +47,7 @@ export default function AboutPage() {
             transition={{ delay: 0.1 }}
             className="text-xl text-muted-foreground max-w-2xl"
           >
-            A digital innovation studio based in India, dedicated to pushing the boundaries of what's possible on the web and beyond.
+            A digital innovation studio based in Pune, India, founded in 2025 to push the boundaries of technology.
           </motion.p>
         </header>
 
@@ -62,6 +87,54 @@ export default function AboutPage() {
               </div>
             </div>
           </motion.div>
+        </section>
+
+        {/* Founders Section */}
+        <section className="py-24 border-t border-border mb-32">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-6xl font-headline font-bold mb-4">Meet the Founders</h2>
+            <p className="text-muted-foreground">The visionaries behind GetItWebbed.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
+            {founders.map((founder, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group"
+              >
+                <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden mb-6 border border-border">
+                  <Image
+                    src={founder.image}
+                    alt={founder.name}
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    data-ai-hint="professional man"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
+                </div>
+                <div className="text-center space-y-4">
+                  <div>
+                    <h3 className="text-2xl font-headline font-bold">{founder.name}</h3>
+                    <p className="text-primary font-code text-sm uppercase tracking-widest">{founder.role}</p>
+                  </div>
+                  <div className="flex justify-center gap-4">
+                    <a href={founder.socials.linkedin} className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
+                      <Linkedin className="w-5 h-5" />
+                    </a>
+                    <a href={founder.socials.insta} className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
+                      <Instagram className="w-5 h-5" />
+                    </a>
+                    <a href={founder.socials.github} className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
+                      <Github className="w-5 h-5" />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </section>
 
         <section className="py-24 border-t border-border">
