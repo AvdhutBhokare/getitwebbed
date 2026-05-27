@@ -3,13 +3,13 @@
     {
       "id": "manas-founder",
       "description": "Manas Garge - Co-Founder & Data Engineer",
-      "imageUrl": "https://picsum.photos/seed/manas/600/800",
-      "imageHint": "professional man"
+      "imageUrl": "https://picsum.photos/seed/manas-pro/600/800",
+      "imageHint": "man sunglasses"
     },
     {
       "id": "avdhut-founder",
       "description": "Avdhut Bhokare - Co-Founder & Developer",
-      "imageUrl": "https://picsum.photos/seed/avdhut/600/800",
+      "imageUrl": "https://picsum.photos/seed/avdhut-dev/600/800",
       "imageHint": "professional man"
     }
   ]

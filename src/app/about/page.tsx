@@ -5,12 +5,14 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import { Instagram, Linkedin, Github } from 'lucide-react'
+import { PlaceHolderImages } from '@/lib/placeholder-images'
 
 const founders = [
   {
     name: "Manas Garge",
     role: "Co-Founder & Data Engineer",
-    image: "https://picsum.photos/seed/manas/600/800",
+    image: PlaceHolderImages.find(img => img.id === 'manas-founder')?.imageUrl || "https://picsum.photos/seed/manas/600/800",
+    hint: PlaceHolderImages.find(img => img.id === 'manas-founder')?.imageHint || "professional man",
     socials: {
       insta: "#",
       linkedin: "#",
@@ -20,7 +22,8 @@ const founders = [
   {
     name: "Avdhut Bhokare",
     role: "Co-Founder & Developer",
-    image: "https://picsum.photos/seed/avdhut/600/800",
+    image: PlaceHolderImages.find(img => img.id === 'avdhut-founder')?.imageUrl || "https://picsum.photos/seed/avdhut/600/800",
+    hint: PlaceHolderImages.find(img => img.id === 'avdhut-founder')?.imageHint || "professional man",
     socials: {
       insta: "#",
       linkedin: "#",
@@ -51,7 +54,7 @@ export default function AboutPage() {
           </motion.p>
         </header>
 
-        {/* Founders Section - Moved Up */}
+        {/* Founders Section */}
         <section className="py-24 border-t border-border mb-32">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-6xl font-headline font-bold mb-4">Meet the Founders</h2>
@@ -73,7 +76,7 @@ export default function AboutPage() {
                     alt={founder.name}
                     fill
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    data-ai-hint="professional man"
+                    data-ai-hint={founder.hint}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                 </div>
@@ -99,7 +102,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Innovation Section - Moved Down */}
+        {/* Innovation Section */}
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center mb-32">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
