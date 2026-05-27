@@ -14,9 +14,9 @@ const founders = [
     image: PlaceHolderImages.find(img => img.id === 'manas-founder')?.imageUrl || "https://picsum.photos/seed/manas/600/800",
     hint: PlaceHolderImages.find(img => img.id === 'manas-founder')?.imageHint || "professional man",
     socials: {
-      insta: "#",
-      linkedin: "#",
-      github: "#"
+      insta: "https://www.instagram.com/gridrunner22/",
+      linkedin: "https://www.linkedin.com/in/manasgarge/",
+      github: "https://github.com/ManasGarge22"
     }
   },
   {
@@ -86,13 +86,13 @@ export default function AboutPage() {
                     <p className="text-primary font-code text-sm uppercase tracking-widest">{founder.role}</p>
                   </div>
                   <div className="flex justify-center gap-4">
-                    <a href={founder.socials.linkedin} className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
+                    <a href={founder.socials.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
                       <Linkedin className="w-5 h-5" />
                     </a>
-                    <a href={founder.socials.insta} className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
+                    <a href={founder.socials.insta} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
                       <Instagram className="w-5 h-5" />
                     </a>
-                    <a href={founder.socials.github} className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
+                    <a href={founder.socials.github} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
                       <Github className="w-5 h-5" />
                     </a>
                   </div>
