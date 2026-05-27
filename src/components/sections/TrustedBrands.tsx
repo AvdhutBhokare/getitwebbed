@@ -12,7 +12,7 @@ export const TrustedBrands = () => {
     <section className="py-20 bg-muted/5 border-b border-border/50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12">
         <div className="flex items-center gap-4 text-muted-foreground font-code text-xs uppercase tracking-widest">
-          <span className="text-primary font-bold">01 /</span> <span>Trusted By</span>
+          <span className="text-primary font-bold">02 /</span> <span>Trusted By</span>
         </div>
       </div>
 

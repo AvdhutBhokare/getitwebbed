@@ -18,7 +18,7 @@ export const About = () => {
     <section ref={ref} className="py-32 relative overflow-hidden bg-muted/20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="flex items-center gap-4 mb-16 text-muted-foreground font-code text-sm">
-          <span className="text-primary font-bold">02 /</span> <span>About</span>
+          <span className="text-primary font-bold">01 /</span> <span>About</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start mb-24">
