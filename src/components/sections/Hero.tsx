@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useEffect, useRef } from 'react'
@@ -116,21 +115,21 @@ export const Hero = () => {
             className="mb-8"
           >
             <span className="inline-block py-1 px-4 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-medium tracking-widest uppercase">
-              Web · Apps · IoT · Branding
+              Brand Establishment · Web · Apps · IoT
             </span>
           </motion.div>
 
           <h1 className="text-6xl md:text-[120px] leading-[1] font-headline font-bold mb-10 tracking-tighter">
             <motion.span
-              initial={{ y: "100%", opacity: 0 }}
-              animate={{ y: 0 }}
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.8, ease: "circOut" }}
               className="block"
             >
               WE BUILD
             </motion.span>
             <motion.span
-              initial={{ y: "100%", opacity: 0 }}
+              initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.4, duration: 0.8, ease: "circOut" }}
               className="block text-outline text-primary py-2"
@@ -138,7 +137,7 @@ export const Hero = () => {
               BRANDS
             </motion.span>
             <motion.span
-              initial={{ y: "100%", opacity: 0 }}
+              initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.8, ease: "circOut" }}
               className="block"
@@ -153,7 +152,7 @@ export const Hero = () => {
             transition={{ delay: 1, duration: 1 }}
             className="text-lg md:text-2xl text-muted-foreground max-w-3xl mb-12 font-medium"
           >
-            End-to-end brand establishment with precision engineering. We specialize in building iconic brands and delivering high-impact digital solutions from the ground up.
+            End-to-End Brand Establishment with precision engineering. We specialize in building iconic brands and delivering high-impact digital solutions from the ground up.
           </motion.p>
 
           <motion.div
