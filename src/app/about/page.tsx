@@ -25,9 +25,9 @@ const founders = [
     image: PlaceHolderImages.find(img => img.id === 'avdhut-founder')?.imageUrl || "https://picsum.photos/seed/avdhut/600/800",
     hint: PlaceHolderImages.find(img => img.id === 'avdhut-founder')?.imageHint || "professional man",
     socials: {
-      insta: "#",
-      linkedin: "#",
-      github: "#"
+      insta: "https://www.instagram.com/adventure._.vlogs_/",
+      linkedin: "https://www.linkedin.com/in/avdhut-bhokare-9a33a0215",
+      github: "https://github.com/AvdhutBhokare"
     }
   }
 ]

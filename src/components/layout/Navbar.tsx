@@ -11,7 +11,6 @@ const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'Work', href: '/work' },
   { name: 'About', href: '/about' },
-  { name: 'Enquiry', href: '/enquiry' },
 ]
 
 export const Navbar = () => {
@@ -113,9 +112,9 @@ export const Navbar = () => {
             </div>
 
             <div className="mt-auto flex gap-6 text-muted-foreground">
-              <a href="#" className="hover:text-primary">LinkedIn</a>
+              <a href="https://www.linkedin.com/in/manasgarge/" target="_blank" rel="noopener noreferrer" className="hover:text-primary">LinkedIn</a>
               <a href="#" className="hover:text-primary">X / Twitter</a>
-              <a href="#" className="hover:text-primary">Instagram</a>
+              <a href="https://www.instagram.com/gridrunner22/" target="_blank" rel="noopener noreferrer" className="hover:text-primary">Instagram</a>
             </div>
           </motion.div>
         )}
