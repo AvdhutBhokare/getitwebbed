@@ -1,4 +1,3 @@
-
 "use client"
 
 import React from 'react'
@@ -32,7 +31,7 @@ const services = [
     id: '04',
     title: 'IoT Projects',
     icon: Cpu,
-    items: ['Sensor Integration', 'Smart Home Systems', 'Industrial Automation', 'Arduino / Raspberry Pi', 'Cloud Dashboards'],
+    items: ['Sensor Integration', 'Smart Home Systems', 'Industrial Automation', 'Arduino / Raspberry Pi / ESP32', 'Cloud Dashboards'],
     color: 'primary'
   }
 ]

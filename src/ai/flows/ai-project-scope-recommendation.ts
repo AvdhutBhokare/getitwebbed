@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview An AI agent that analyzes a project description and recommends a suitable technology stack and core features.
@@ -22,7 +21,7 @@ const ProjectScopeRecommendationOutputSchema = z.object({
   summary: z.string().describe('A brief summary of the project based on the description.'),
   recommendedTechStack: z
     .array(z.string())
-    .describe('A list of recommended technologies and frameworks (e.g., Next.js, Firebase, Flutter, React Native, Arduino) suitable for the project.'),
+    .describe('A list of recommended technologies and frameworks (e.g., Next.js, Firebase, Flutter, React Native, Arduino, ESP32) suitable for the project.'),
   coreFeatures: z
     .array(z.string())
     .describe('A list of core features that the project should include based on the description.'),
@@ -48,11 +47,11 @@ Consider the following services GetItWebbed offers:
 - Web Development: Landing Pages, E-Commerce, SaaS Dashboards, CMS Integration, UI/UX Design
 - App Development: Android Apps, Flutter/React Native, Backend APIs
 - College Projects: Academic project implementation, documentation, and technical support
-- IoT Projects: Sensor Integration, Smart Home Systems, Industrial Automation, Arduino/Raspberry Pi, Cloud Dashboards
+- IoT Projects: Sensor Integration, Smart Home Systems, Industrial Automation, Arduino / Raspberry Pi / ESP32, Cloud Dashboards
 
 Based on the project description below, provide:
 1. A brief summary of the project.
-2. A list of recommended technologies and frameworks. Prioritize modern, scalable, and efficient tools. Consider Next.js, Firebase, Flutter, React Native, Arduino, Raspberry Pi, TailwindCSS, etc.
+2. A list of recommended technologies and frameworks. Prioritize modern, scalable, and efficient tools. Consider Next.js, Firebase, Flutter, React Native, Arduino, ESP32, Raspberry Pi, TailwindCSS, etc.
 3. A list of core features that the project should include.
 
 Project Description: {{{description}}}`,
