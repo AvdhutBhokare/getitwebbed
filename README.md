@@ -33,12 +33,6 @@ GOOGLE_GENAI_API_KEY=your_google_ai_studio_key
 RESEND_API_KEY=your_resend_api_key
 ```
 
-### 4. Running the Project
-```bash
-npm run dev
-```
-Open [http://localhost:9002](http://localhost:9002) to see your site.
-
 ---
 
 ## 🛠️ Step-by-Step Setup
@@ -51,48 +45,38 @@ Open [http://localhost:9002](http://localhost:9002) to see your site.
     *   Go to the **Users** tab and click **Add user** to create your admin account.
 3.  **Firestore Database**:
     *   Go to **Firestore Database** and click **Create database**.
-    *   Start in **Production mode** (Security Rules are handled automatically by Firebase Studio deployment).
+    *   Start in **Production mode**.
 4.  **Get Config Keys**:
     *   Go to **Project Settings** (gear icon) > **General**.
-    *   Under "Your apps", click the `</>` icon to register a Web App.
+    *   Under "Your apps", register a Web App.
     *   Copy the `firebaseConfig` values into your `.env.local`.
 
 ### Phase 2: AI & Email Features
-1.  **AI Scoping**: Get a `GOOGLE_GENAI_API_KEY` from [Google AI Studio](https://aistudio.google.com/). This powers the AI recommendation feature in the enquiry form.
+1.  **AI Scoping**: Get a `GOOGLE_GENAI_API_KEY` from [Google AI Studio](https://aistudio.google.com/).
 2.  **Email Notifications**:
     *   Sign up at [Resend](https://resend.com/).
     *   Generate an API key and add it to `RESEND_API_KEY`.
-    *   *Note*: On the free tier, emails are sent to the address you signed up with.
 
 ---
 
 ## ☁️ Deployment
 
-### Deploying to Firebase App Hosting (Recommended)
-This project is optimized for Firebase App Hosting, which provides seamless Next.js 15 support.
+### ⚠️ Important: Use "App Hosting", not "Hosting"
+Standard **Firebase Hosting** is for static sites. Since this app uses Next.js Server Features, you **MUST** use **Firebase App Hosting**.
 
-1.  **Push to GitHub**: Push your code to a GitHub repository.
+1.  **Push to GitHub**: Push your local code to a private or public GitHub repository.
 2.  **Connect to Firebase**:
-    *   In the Firebase Console, go to **App Hosting**.
+    *   In the Firebase Console sidebar, click **Build** > **App Hosting**.
     *   Click **Get Started** and connect your GitHub account.
     *   Select your repository and branch.
 3.  **Configure Environment Variables**:
-    *   In the App Hosting setup, you can add your environment variables (`GOOGLE_GENAI_API_KEY`, etc.) so they are available in production.
-4.  **Finish**: Firebase will automatically build and deploy your site on every push to your branch.
+    *   During setup (or after in the App Hosting settings), add your environment variables (`GOOGLE_GENAI_API_KEY`, `RESEND_API_KEY`, etc.) so they work in production.
+4.  **Finish**: Firebase will automatically detect Next.js, build your site, and deploy it. Every time you push to GitHub, it will update automatically.
 
 ---
 
 ## 🔐 Admin Panel Guide
-
-### How to access?
-Visit your website URL and add `/login` (e.g., `yoursite.com/login`). There is also a link in the website footer.
-
-### Managing Content
-Once logged in, use the tabs to manage:
-- **Enquiries**: View all client submissions and project details.
-- **Projects**: Add/Delete items from your featured portfolio.
-- **About Team**: Update the team section images, roles, and social links.
-- **Brands**: Manage the "Trusted By" scrolling marquee.
+Visit your website URL and add `/login` (e.g., `yoursite.com/login`). Use the credentials you created in Phase 1, Step 2.
 
 ---
 Made with ❤️ by GetItWebbed.
