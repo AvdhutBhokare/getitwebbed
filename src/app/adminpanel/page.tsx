@@ -1,4 +1,3 @@
-
 "use client"
 
 import React, { useEffect, useState, useMemo } from 'react'
@@ -9,9 +8,10 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Card, CardContent, CardHeader, CardTitle } from '@/card'
-import { Loader2, Plus, Trash2, LogOut, LayoutDashboard, Briefcase, Award } from 'lucide-react'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Loader2, Plus, Trash2, LogOut, LayoutDashboard, Briefcase, Award, Mail, Phone, Calendar as CalendarIcon, Wallet, MessageSquare } from 'lucide-react'
 import { toast } from '@/hooks/use-toast'
+import { format } from 'date-fns'
 
 export default function AdminPanel() {
   const { user, loading: userLoading } = useUser()
@@ -48,6 +48,12 @@ export default function AdminPanel() {
   }, [db])
   const { data: projects, loading: projectsLoading } = useCollection(projectsQuery)
 
+  const enquiriesQuery = useMemo(() => {
+    if (!db) return null
+    return query(collection(db, 'enquiries'), orderBy('createdAt', 'desc'))
+  }, [db])
+  const { data: enquiries, loading: enquiriesLoading } = useCollection(enquiriesQuery)
+
   if (userLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -59,7 +65,7 @@ export default function AdminPanel() {
     )
   }
 
-  if (!user) return null // Handled by useEffect redirect
+  if (!user) return null
 
   const handleAddBrand = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -124,8 +130,11 @@ export default function AdminPanel() {
         </Button>
       </div>
 
-      <Tabs defaultValue="projects" className="space-y-8">
+      <Tabs defaultValue="enquiries" className="space-y-8">
         <TabsList className="bg-muted/50 p-1 rounded-xl w-full md:w-auto">
+          <TabsTrigger value="enquiries" className="flex-1 md:flex-none rounded-lg px-8 py-3 data-[state=active]:bg-primary data-[state=active]:text-background">
+            <Mail className="w-4 h-4 mr-2" /> Enquiries
+          </TabsTrigger>
           <TabsTrigger value="projects" className="flex-1 md:flex-none rounded-lg px-8 py-3 data-[state=active]:bg-primary data-[state=active]:text-background">
             <Briefcase className="w-4 h-4 mr-2" /> Projects
           </TabsTrigger>
@@ -133,6 +142,73 @@ export default function AdminPanel() {
             <Award className="w-4 h-4 mr-2" /> Brands
           </TabsTrigger>
         </TabsList>
+
+        <TabsContent value="enquiries" className="space-y-6">
+          <div className="grid grid-cols-1 gap-6">
+            {enquiriesLoading ? (
+              <div className="py-20 flex justify-center"><Loader2 className="animate-spin text-primary" /></div>
+            ) : enquiries?.length === 0 ? (
+              <Card className="bg-muted/10 border-dashed border-border p-12 text-center">
+                <p className="text-muted-foreground">No enquiries received yet.</p>
+              </Card>
+            ) : enquiries?.map(enq => (
+              <Card key={enq.id} className="bg-muted/10 border-border overflow-hidden">
+                <CardHeader className="flex flex-row items-start justify-between border-b border-border/50 bg-muted/5">
+                  <div>
+                    <CardTitle className="text-xl">{enq.fullName}</CardTitle>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {enq.company ? `${enq.company} · ` : ''}
+                      {enq.createdAt?.toDate ? format(enq.createdAt.toDate(), 'PPP p') : 'Recent'}
+                    </p>
+                  </div>
+                  <Button variant="ghost" size="icon" onClick={() => handleDelete('enquiries', enq.id)} className="text-muted-foreground hover:text-destructive">
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </CardHeader>
+                <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 text-sm">
+                      <Mail className="w-4 h-4 text-primary" />
+                      <a href={`mailto:${enq.email}`} className="hover:text-primary transition-colors">{enq.email}</a>
+                    </div>
+                    {enq.phone && (
+                      <div className="flex items-center gap-3 text-sm">
+                        <Phone className="w-4 h-4 text-secondary" />
+                        <a href={`tel:${enq.phone}`} className="hover:text-secondary transition-colors">{enq.phone}</a>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-3 text-sm">
+                      <Wallet className="w-4 h-4 text-primary" />
+                      <span>Budget: ₹{enq.budget?.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm">
+                      <CalendarIcon className="w-4 h-4 text-secondary" />
+                      <span className="capitalize">Timeline: {enq.timeline}</span>
+                    </div>
+                  </div>
+
+                  <div className="lg:col-span-1">
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3">Services</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {enq.services?.map((s: string, idx: number) => (
+                        <span key={idx} className="px-2 py-1 rounded bg-background border border-border text-[10px] font-code">{s}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="md:col-span-2 lg:col-span-2">
+                    <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-3 flex items-center gap-2">
+                      <MessageSquare className="w-3 h-3" /> Project Description
+                    </h4>
+                    <p className="text-sm text-muted-foreground leading-relaxed italic bg-background/30 p-4 rounded-xl border border-border/30">
+                      "{enq.description}"
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
 
         <TabsContent value="projects" className="space-y-8">
           <Card className="bg-muted/20 border-border">
