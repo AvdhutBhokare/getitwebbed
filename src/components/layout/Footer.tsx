@@ -1,6 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { Instagram, Linkedin, Twitter, Github } from 'lucide-react'
+import { Instagram, Linkedin, Twitter, Github, Lock } from 'lucide-react'
 
 export const Footer = () => {
   return (
@@ -40,7 +40,7 @@ export const Footer = () => {
               <li><Link href="/" className="text-muted-foreground hover:text-primary transition-colors">Home</Link></li>
               <li><Link href="/work" className="text-muted-foreground hover:text-primary transition-colors">Our Work</Link></li>
               <li><Link href="/about" className="text-muted-foreground hover:text-primary transition-colors">About Team</Link></li>
-              <li><Link href="/enquiry" className="text-muted-foreground hover:text-primary transition-colors">Get Enquiry</Link></li>
+              <li><Link href="/enquiry" className="text-muted-foreground hover:text-primary transition-colors">Get Quote</Link></li>
             </ul>
           </div>
 
@@ -54,7 +54,11 @@ export const Footer = () => {
                 </a>
               </li>
               <li>+91 98670 43280</li>
-              <li>+91 70404 50513</li>
+              <li>
+                <Link href="/login" className="flex items-center gap-2 hover:text-primary transition-colors text-xs mt-8 opacity-50 hover:opacity-100">
+                  <Lock className="w-3 h-3" /> Admin Portal
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
