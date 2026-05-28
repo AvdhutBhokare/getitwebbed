@@ -142,7 +142,7 @@ export const Hero = () => {
               transition={{ delay: 0.6, duration: 0.8, ease: "circOut" }}
               className="block"
             >
-              & EXPERIENCES.
+              & EXPERIENCES
             </motion.span>
           </h1>
 
@@ -167,7 +167,7 @@ export const Hero = () => {
               </Link>
             </Button>
             <Button asChild variant="ghost" size="lg" className="h-14 px-10 rounded-full text-foreground hover:bg-muted text-lg border border-border">
-              <Link href="/enquiry">Get a Quote</Link>
+              <Link href="/enquiry">Get Quote</Link>
             </Button>
           </motion.div>
         </div>
