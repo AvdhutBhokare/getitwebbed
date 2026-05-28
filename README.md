@@ -62,16 +62,17 @@ RESEND_API_KEY=your_resend_api_key
 ## ☁️ Deployment
 
 ### ⚠️ Important: Use "App Hosting", not "Hosting"
-Standard **Firebase Hosting** is for static sites. Since this app uses Next.js Server Features, you **MUST** use **Firebase App Hosting**.
+Standard **Firebase Hosting** is for static sites. Since this app uses Next.js Server Features (like Server Actions for emails), you **MUST** use **Firebase App Hosting**.
 
-1.  **Push to GitHub**: Push your local code to a private or public GitHub repository.
-2.  **Connect to Firebase**:
+1.  **Upgrade to Blaze Plan**: Firebase App Hosting requires your project to be on the **Pay-as-you-go (Blaze) plan**. This allows Firebase to provision the server resources needed for Next.js. Most small sites stay within the free tier.
+2.  **Push to GitHub**: Push your local code to a private or public GitHub repository.
+3.  **Connect to Firebase**:
     *   In the Firebase Console sidebar, click **Build** > **App Hosting**.
     *   Click **Get Started** and connect your GitHub account.
     *   Select your repository and branch.
-3.  **Configure Environment Variables**:
+4.  **Configure Environment Variables**:
     *   During setup (or after in the App Hosting settings), add your environment variables (`GOOGLE_GENAI_API_KEY`, `RESEND_API_KEY`, etc.) so they work in production.
-4.  **Finish**: Firebase will automatically detect Next.js, build your site, and deploy it. Every time you push to GitHub, it will update automatically.
+5.  **Finish**: Firebase will automatically detect Next.js, build your site, and deploy it. Every time you push to GitHub, it will update automatically.
 
 ---
 
