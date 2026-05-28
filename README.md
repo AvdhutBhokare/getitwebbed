@@ -1,3 +1,4 @@
+
 # GetItWebbed Agency Starter
 
 This is a premium Next.js starter for **GetItWebbed**, a technical service agency specializing in Brand Establishment, Web/App Development, and IoT solutions.
@@ -20,44 +21,24 @@ npm install
 Create a `.env.local` file in the root directory and add your Firebase and Google AI API keys. 
 
 ### 4. Admin Setup (Authentication)
-Before you can log in to the `/adminpanel`, you must create an admin user:
+Before you can log in to the `/adminpanel`, you must configure your Firebase project:
 1. Go to the [Firebase Console](https://console.firebase.google.com/).
 2. Navigate to **Authentication** > **Sign-in method**.
-3. Enable **Email/Password**.
-4. Go to the **Users** tab and click **Add user** to create your login credentials.
+3. **CRITICAL**: Click "Add new provider" and enable **Email/Password**.
+4. Go to the **Users** tab and click **Add user** to create your admin login credentials.
 
-### 5. Running the Project
+### 5. Troubleshooting Login Issues
+If you see "Invalid API Key" or "Configuration Not Found":
+- Double check that you enabled **Email/Password** provider.
+- Ensure your `.env.local` has `NEXT_PUBLIC_FIREBASE_API_KEY` correctly set.
+- Make sure you are using the credentials of the user you created in the **Users** tab.
+
+### 6. Running the Project
 Start the development server:
 ```bash
 npm run dev
 ```
 Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
-
-## Deployment to GitHub
-
-To push this project to your repository at `https://github.com/ManasGarge22/getitwebbed/`, follow these steps in your terminal:
-
-1. **Initialize Git** (if not already initialized):
-   ```bash
-   git init
-   ```
-
-2. **Add the remote origin**:
-   ```bash
-   git remote add origin https://github.com/ManasGarge22/getitwebbed.git
-   ```
-
-3. **Stage and commit your files**:
-   ```bash
-   git add .
-   git commit -m "Initial commit from GetItWebbed Starter"
-   ```
-
-4. **Push to the main branch**:
-   ```bash
-   git branch -M main
-   git push -u origin main
-   ```
 
 ## Project Structure
 - `src/app`: Next.js App Router pages and layouts.
