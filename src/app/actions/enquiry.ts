@@ -3,8 +3,6 @@
 
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 /**
  * Sends a notification email when a new enquiry is submitted.
  * 
@@ -12,12 +10,15 @@ const resend = new Resend(process.env.RESEND_API_KEY);
  * In the free tier, you can only send to your own verified email.
  */
 export async function sendEnquiryEmail(data: any) {
-  if (!process.env.RESEND_API_KEY) {
+  const apiKey = process.env.RESEND_API_KEY;
+  
+  if (!apiKey) {
     console.warn('RESEND_API_KEY is missing. Email notification skipped.');
     return;
   }
 
   try {
+    const resend = new Resend(apiKey);
     const { fullName, email, phone, company, services, budget, timeline, description } = data;
 
     await resend.emails.send({
