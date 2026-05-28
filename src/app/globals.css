@@ -32,8 +32,12 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground selection:bg-primary selection:text-primary-foreground;
+    @apply bg-background text-foreground selection:bg-primary selection:text-primary-foreground cursor-none;
     font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+  }
+  /* Ensure interactive elements also hide the cursor */
+  a, button, [role="button"], input, textarea, select {
+    @apply cursor-none;
   }
 }
 
