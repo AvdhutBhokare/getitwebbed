@@ -24,6 +24,9 @@ const LiquidProjectItem = ({ p, i }: { p: typeof allProjects[0], i: number }) =>
   const smoothX = useSpring(mouseX, springConfig)
   const smoothY = useSpring(mouseY, springConfig)
 
+  const leftPos = useTransform(smoothX, [0, 1], ['0%', '100%'])
+  const topPos = useTransform(smoothY, [0, 1], ['0%', '100%'])
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { left, top, width, height } = e.currentTarget.getBoundingClientRect()
     mouseX.set((e.clientX - left) / width)
@@ -63,8 +66,8 @@ const LiquidProjectItem = ({ p, i }: { p: typeof allProjects[0], i: number }) =>
           <motion.div
             className="absolute w-60 h-60 bg-primary/10 rounded-full blur-[60px] pointer-events-none z-10"
             style={{
-              left: useTransform(smoothX, [0, 1], ['0%', '100%']),
-              top: useTransform(smoothY, [0, 1], ['0%', '100%']),
+              left: leftPos,
+              top: topPos,
               translateX: '-50%',
               translateY: '-50%',
             }}

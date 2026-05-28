@@ -56,9 +56,9 @@ const LiquidProjectCard = ({ project, index }: { project: typeof projects[0], in
     mouseY.set(y)
   }
 
-  // Displacement effect values
-  const displacementScale = useTransform(smoothX, [0, 1], [-10, 10])
-  const displacementY = useTransform(smoothY, [0, 1], [-10, 10])
+  // Displacement effect values and shine position
+  const leftPos = useTransform(smoothX, [0, 1], ['0%', '100%'])
+  const topPos = useTransform(smoothY, [0, 1], ['0%', '100%'])
 
   return (
     <motion.div
@@ -108,8 +108,8 @@ const LiquidProjectCard = ({ project, index }: { project: typeof projects[0], in
           <motion.div
             className="absolute w-40 h-40 bg-primary/20 rounded-full blur-[40px] pointer-events-none z-10"
             style={{
-              left: useTransform(smoothX, [0, 1], ['0%', '100%']),
-              top: useTransform(smoothY, [0, 1], ['0%', '100%']),
+              left: leftPos,
+              top: topPos,
               translateX: '-50%',
               translateY: '-50%',
             }}
