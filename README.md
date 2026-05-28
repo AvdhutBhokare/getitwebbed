@@ -19,7 +19,14 @@ npm install
 ### 3. Environment Setup
 Create a `.env.local` file in the root directory and add your Firebase and Google AI API keys. 
 
-### 4. Running the Project
+### 4. Admin Setup (Authentication)
+Before you can log in to the `/adminpanel`, you must create an admin user:
+1. Go to the [Firebase Console](https://console.firebase.google.com/).
+2. Navigate to **Authentication** > **Sign-in method**.
+3. Enable **Email/Password**.
+4. Go to the **Users** tab and click **Add user** to create your login credentials.
+
+### 5. Running the Project
 Start the development server:
 ```bash
 npm run dev
