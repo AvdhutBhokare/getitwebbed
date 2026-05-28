@@ -18,6 +18,8 @@ import { Slider } from '@/components/ui/slider'
 import { Mail, Phone, MapPin, Loader2, Sparkles, CheckCircle2 } from 'lucide-react'
 import { aiProjectScopeRecommendation, type ProjectScopeRecommendationOutput } from '@/ai/flows/ai-project-scope-recommendation'
 import { toast } from '@/hooks/use-toast'
+import { useFirestore } from '@/firebase'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 
 const formSchema = z.object({
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
@@ -39,6 +41,7 @@ export default function EnquiryPage() {
   const [isAiAnalyzing, setIsAiAnalyzing] = useState(false)
   const [aiResult, setAiResult] = useState<ProjectScopeRecommendationOutput | null>(null)
   const [submitted, setSubmitted] = useState(false)
+  const db = useFirestore()
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -84,11 +87,19 @@ export default function EnquiryPage() {
   }
 
   const onSubmit = async (data: FormData) => {
+    if (!db) return
     setIsSubmitting(true)
-    await new Promise(r => setTimeout(r, 2000))
-    console.log('Form Submitted to Firestore:', data)
-    setIsSubmitting(false)
-    setSubmitted(true)
+    try {
+      await addDoc(collection(db, 'enquiries'), {
+        ...data,
+        createdAt: serverTimestamp()
+      })
+      setSubmitted(true)
+    } catch (e) {
+      toast({ variant: "destructive", title: "Error submitting form" })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   if (submitted) {
@@ -352,30 +363,6 @@ export default function EnquiryPage() {
               <Button asChild className="w-full mt-10 bg-green-500 hover:bg-green-600 text-white rounded-xl h-12">
                 <a href="https://wa.me/919867043280" target="_blank" rel="noreferrer">Chat on WhatsApp</a>
               </Button>
-            </div>
-
-            <div className="p-8 bg-muted/10 rounded-[2.5rem] border border-border/50">
-              <h3 className="text-xl font-headline font-bold mb-6">FAQ</h3>
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="item-1" className="border-border">
-                  <AccordionTrigger className="text-sm font-bold text-left">How long does a project take?</AccordionTrigger>
-                  <AccordionContent className="text-xs text-muted-foreground">
-                    Typically 2–8 weeks depending on complexity. Small websites can be live in 10 days.
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-2" className="border-border">
-                  <AccordionTrigger className="text-sm font-bold text-left">Do you provide maintenance?</AccordionTrigger>
-                  <AccordionContent className="text-xs text-muted-foreground">
-                    Yes, we offer monthly maintenance packages covering updates, backups, and minor tweaks.
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-3" className="border-border">
-                  <AccordionTrigger className="text-sm font-bold text-left">Can you work with existing teams?</AccordionTrigger>
-                  <AccordionContent className="text-xs text-muted-foreground">
-                    Absolutely — we integrate seamlessly into your current workflow and technical stack.
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
             </div>
           </aside>
         </div>

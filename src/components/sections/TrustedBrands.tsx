@@ -1,13 +1,25 @@
+
 "use client"
 
 import React from 'react'
 import { motion } from 'framer-motion'
-
-const brands = [
-  'TechFlow', 'Zenith AI', 'Quantum Edge', 'Blue Horizon', 'Apex Systems', 'Nebula Corp', 'Swift Logic', 'Vanguard'
-]
+import { useFirestore, useCollection } from '@/firebase'
+import { collection, query, orderBy } from 'firebase/firestore'
 
 export const TrustedBrands = () => {
+  const db = useFirestore()
+  const brandsQuery = React.useMemo(() => {
+    if (!db) return null
+    return query(collection(db, 'brands'), orderBy('order', 'asc'))
+  }, [db])
+  
+  const { data: brands, loading } = useCollection(brandsQuery)
+
+  // Use default brands if nothing in Firestore yet
+  const displayBrands = brands?.length ? brands.map(b => b.name) : [
+    'TechFlow', 'Zenith AI', 'Quantum Edge', 'Blue Horizon', 'Apex Systems', 'Nebula Corp', 'Swift Logic', 'Vanguard'
+  ]
+
   return (
     <section className="py-20 bg-muted/5 border-b border-border/50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 md:px-12 mb-12">
@@ -18,7 +30,7 @@ export const TrustedBrands = () => {
 
       <div className="flex overflow-hidden group select-none">
         <div className="flex animate-marquee whitespace-nowrap gap-16 items-center">
-          {[...brands, ...brands].map((brand, i) => (
+          {[...displayBrands, ...displayBrands].map((brand, i) => (
             <div key={i} className="flex items-center gap-4">
               <span className="text-2xl md:text-4xl font-headline font-bold text-muted-foreground/40 hover:text-primary transition-colors cursor-default">
                 {brand}

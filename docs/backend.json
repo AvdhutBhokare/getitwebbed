@@ -1,0 +1,87 @@
+
+{
+  "entities": {
+    "Brand": {
+      "title": "Brand",
+      "description": "A brand name displayed in the 'Trusted By' section.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the brand."
+        },
+        "order": {
+          "type": "number",
+          "description": "Sorting order for the marquee."
+        }
+      },
+      "required": ["name"]
+    },
+    "Project": {
+      "title": "Project",
+      "description": "A portfolio project displayed in the Work sections.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the project."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the project (e.g., IoT, Web, App)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Short description of the work done."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL to the project image."
+        },
+        "imageHint": {
+          "type": "string",
+          "description": "AI hint for the image."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["title", "category", "imageUrl"]
+    },
+    "Enquiry": {
+      "title": "Enquiry",
+      "description": "A project inquiry submitted via the contact form.",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "company": { "type": "string" },
+        "services": { "type": "array", "items": { "type": "string" } },
+        "projectType": { "type": "string" },
+        "budget": { "type": "number" },
+        "timeline": { "type": "string" },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "auth": {
+    "providers": ["password"]
+  },
+  "firestore": {
+    "/brands/{brandId}": {
+      "schema": "#/entities/Brand",
+      "description": "Collection of trusted brand names."
+    },
+    "/projects/{projectId}": {
+      "schema": "#/entities/Project",
+      "description": "Collection of portfolio projects."
+    },
+    "/enquiries/{enquiryId}": {
+      "schema": "#/entities/Enquiry",
+      "description": "Collection of submitted enquiries."
+    }
+  }
+}

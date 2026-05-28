@@ -4,18 +4,11 @@
 import React, { useState } from 'react'
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, Loader2 } from 'lucide-react'
+import { useFirestore, useCollection } from '@/firebase'
+import { collection, query, orderBy } from 'firebase/firestore'
 
-const allProjects = [
-  { id: 1, title: 'SmartHome Hub', cat: 'IoT', img: 'https://picsum.photos/seed/12/800/600', hint: 'iot smart home' },
-  { id: 2, title: 'ShopEase Engine', cat: 'Web', img: 'https://picsum.photos/seed/15/800/600', hint: 'ecommerce website' },
-  { id: 3, title: 'MediTrack', cat: 'App', img: 'https://picsum.photos/seed/18/800/600', hint: 'medical application' },
-  { id: 4, title: 'AgriSense', cat: 'IoT', img: 'https://picsum.photos/seed/21/800/600', hint: 'agriculture sensors' },
-  { id: 5, title: 'PortfolioFlow', cat: 'Web', img: 'https://picsum.photos/seed/24/800/600', hint: 'saas dashboard' },
-  { id: 6, title: 'CryptoPulse', cat: 'App', img: 'https://picsum.photos/seed/27/800/600', hint: 'crypto wallet' },
-]
-
-const LiquidProjectItem = ({ p, i }: { p: typeof allProjects[0], i: number }) => {
+const LiquidProjectItem = ({ p, i }: { p: any, i: number }) => {
   const [isHovered, setIsHovered] = useState(false)
   const mouseX = useMotionValue(0.5)
   const mouseY = useMotionValue(0.5)
@@ -53,15 +46,14 @@ const LiquidProjectItem = ({ p, i }: { p: typeof allProjects[0], i: number }) =>
           transition={{ duration: 0.4 }}
         >
           <Image
-            src={p.img}
+            src={p.imageUrl}
             alt={p.title}
             fill
             className="object-cover"
-            data-ai-hint={p.hint}
+            data-ai-hint={p.imageHint || p.category}
           />
         </motion.div>
         
-        {/* Shine following mouse */}
         {isHovered && (
           <motion.div
             className="absolute w-60 h-60 bg-primary/10 rounded-full blur-[60px] pointer-events-none z-10"
@@ -80,7 +72,7 @@ const LiquidProjectItem = ({ p, i }: { p: typeof allProjects[0], i: number }) =>
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-xl font-bold font-headline group-hover:text-primary transition-colors">{p.title}</h3>
-          <p className="text-sm text-muted-foreground font-code uppercase tracking-wider">{p.cat}</p>
+          <p className="text-sm text-muted-foreground font-code uppercase tracking-wider">{p.category}</p>
         </div>
         <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all -translate-y-2 group-hover:translate-y-0">
           <ArrowUpRight className="w-5 h-5 text-primary" />
@@ -91,6 +83,13 @@ const LiquidProjectItem = ({ p, i }: { p: typeof allProjects[0], i: number }) =>
 }
 
 export default function WorkPage() {
+  const db = useFirestore()
+  const projectsQuery = React.useMemo(() => {
+    if (!db) return null
+    return query(collection(db, 'projects'), orderBy('createdAt', 'desc'))
+  }, [db])
+  const { data: projects, loading } = useCollection(projectsQuery)
+
   return (
     <div className="pt-32 pb-20">
       <svg className="hidden">
@@ -121,11 +120,15 @@ export default function WorkPage() {
           </motion.p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {allProjects.map((p, i) => (
-            <LiquidProjectItem key={p.id} p={p} i={i} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center py-20"><Loader2 className="animate-spin text-primary w-10 h-10" /></div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects?.map((p, i) => (
+              <LiquidProjectItem key={p.id} p={p} i={i} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
