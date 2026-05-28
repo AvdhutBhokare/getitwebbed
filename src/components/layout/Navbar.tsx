@@ -48,7 +48,6 @@ export const Navbar = () => {
               className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors relative group"
             >
               {link.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-primary transition-all group-hover:w-full" />
             </Link>
           ))}
           <Button asChild variant="outline" className="border-primary/50 hover:bg-primary hover:text-background transition-all rounded-full px-6">
