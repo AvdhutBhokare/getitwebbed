@@ -1,4 +1,3 @@
-
 import React from 'react'
 import Link from 'next/link'
 import { Instagram, Linkedin, Twitter, Github } from 'lucide-react'
@@ -60,11 +59,8 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+        <div className="pt-8 border-t border-border/50 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground text-center md:text-left">
           <p>© {new Date().getFullYear()} GetItWebbed. All rights reserved.</p>
-          <p className="flex items-center gap-1">
-            Made with <span className="text-primary">❤️</span> in India
-          </p>
         </div>
       </div>
     </footer>
