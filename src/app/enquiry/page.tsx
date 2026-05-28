@@ -20,6 +20,7 @@ import { aiProjectScopeRecommendation, type ProjectScopeRecommendationOutput } f
 import { toast } from '@/hooks/use-toast'
 import { useFirestore } from '@/firebase'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { sendEnquiryEmail } from '@/app/actions/enquiry'
 
 const formSchema = z.object({
   fullName: z.string().min(2, 'Name must be at least 2 characters'),
@@ -90,10 +91,16 @@ export default function EnquiryPage() {
     if (!db) return
     setIsSubmitting(true)
     try {
+      // 1. Save to Firestore (Client Side)
       await addDoc(collection(db, 'enquiries'), {
         ...data,
         createdAt: serverTimestamp()
       })
+
+      // 2. Trigger Email Notification (Server Side)
+      // We don't await this to keep the UI responsive, but it runs in the background
+      sendEnquiryEmail(data).catch(err => console.error("Email trigger failed:", err))
+      
       setSubmitted(true)
     } catch (e) {
       toast({ variant: "destructive", title: "Error submitting form" })
@@ -113,7 +120,7 @@ export default function EnquiryPage() {
           <CheckCircle2 className="w-20 h-20 text-primary mx-auto mb-6" />
           <h2 className="text-4xl font-headline font-bold mb-4">Enquiry Received!</h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Thank you for reaching out. Our team will review your project details and get back to you within 24 hours.
+            Thank you for reaching out. Our team will review your project details and get back to you within 24 hours. A notification has been sent to our desk.
           </p>
           <Button onClick={() => window.location.href = '/'} className="bg-primary text-background rounded-full px-8">
             Back to Home
