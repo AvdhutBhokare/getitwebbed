@@ -10,14 +10,17 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { motion } from 'framer-motion'
-import { Lock, Loader2, AlertCircle } from 'lucide-react'
+import { Lock, Loader2, AlertCircle, ShieldAlert } from 'lucide-react'
 import { toast } from '@/hooks/use-toast'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
+import { firebaseConfig } from '@/firebase/config'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [debugError, setDebugError] = useState<string | null>(null)
+  
   const { user, loading: userLoading } = useUser()
   const auth = useAuth()
   const router = useRouter()
@@ -29,36 +32,47 @@ export default function LoginPage() {
     }
   }, [user, userLoading, router])
 
+  const isConfigMissing = !firebaseConfig.apiKey || firebaseConfig.apiKey === "placeholder-api-key"
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
+    setDebugError(null)
+
+    if (isConfigMissing) {
+      const msg = "Firebase API Key is missing. Please check your .env.local file."
+      setDebugError(msg)
+      toast({ variant: "destructive", title: "Config Error", description: msg })
+      return
+    }
+
     if (!auth) {
-      toast({
-        variant: "destructive",
-        title: "Auth Error",
-        description: "Firebase Authentication is not initialized."
-      })
+      const msg = "Firebase Auth service is not available."
+      setDebugError(msg)
+      toast({ variant: "destructive", title: "Auth Error", description: msg })
       return
     }
 
     setIsLoading(true)
     try {
       await signInWithEmailAndPassword(auth, email, password)
-      toast({ title: "Login Successful", description: "Redirecting to admin panel..." })
-      // The useEffect will handle the redirection once the state updates
+      toast({ title: "Login Successful", description: "Identity verified. Redirecting..." })
     } catch (error: any) {
-      console.error("Login error:", error)
-      let errorMessage = "Invalid credentials. Please check your email and password."
+      console.error("Firebase Login Error:", error)
+      let errorMessage = "Access denied. Please check your credentials."
       
-      if (error.code === 'auth/configuration-not-found') {
-        errorMessage = "Email/Password provider is not enabled in Firebase Console."
-      } else if (error.code === 'auth/user-not-found') {
-        errorMessage = "No user found with this email."
+      if (error.code === 'auth/configuration-not-found' || error.code === 'auth/operation-not-allowed') {
+        errorMessage = "Email/Password sign-in is not enabled in Firebase Console."
+      } else if (error.code === 'auth/user-not-found' || error.code === 'auth/invalid-credential') {
+        errorMessage = "Invalid email or password."
       } else if (error.code === 'auth/wrong-password') {
         errorMessage = "Incorrect password."
       } else if (error.code === 'auth/invalid-api-key') {
-        errorMessage = "Invalid Firebase API Key. Please check your environment variables."
+        errorMessage = "The API key provided is invalid."
+      } else if (error.code === 'auth/network-request-failed') {
+        errorMessage = "Network error. Please check your connection."
       }
 
+      setDebugError(`${error.code}: ${error.message}`)
       toast({
         variant: "destructive",
         title: "Login Failed",
@@ -72,7 +86,10 @@ export default function LoginPage() {
   if (userLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="w-10 h-10 animate-spin text-primary" />
+          <p className="text-xs font-code text-muted-foreground uppercase tracking-widest">Checking Auth Status...</p>
+        </div>
       </div>
     )
   }
@@ -80,22 +97,34 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-grain relative">
       <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md relative z-10"
       >
-        <Card className="border-primary/20 bg-muted/20 backdrop-blur-sm">
-          <CardHeader className="text-center">
-            <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mx-auto mb-4 border border-primary/20">
-              <Lock className="text-primary w-6 h-6" />
+        <Card className="border-primary/20 bg-muted/20 backdrop-blur-sm shadow-2xl rounded-[2rem]">
+          <CardHeader className="text-center pb-2">
+            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-primary/20">
+              <Lock className="text-primary w-8 h-8" />
             </div>
-            <CardTitle className="text-2xl font-headline font-bold">Admin Portal</CardTitle>
-            <CardDescription>Enter your credentials to manage GetItWebbed.</CardDescription>
+            <CardTitle className="text-3xl font-headline font-bold">Admin Portal</CardTitle>
+            <CardDescription className="text-muted-foreground mt-2">
+              Unauthorized access is strictly prohibited.
+            </CardDescription>
           </CardHeader>
-          <CardContent>
-            <form onSubmit={handleLogin} className="space-y-4">
+          <CardContent className="pt-6">
+            {isConfigMissing && (
+              <Alert variant="destructive" className="mb-6 bg-destructive/10 border-destructive/20">
+                <ShieldAlert className="h-4 w-4" />
+                <AlertTitle>Configuration Missing</AlertTitle>
+                <AlertDescription className="text-xs">
+                  Your Firebase keys are not configured. Check <code>.env.local</code>.
+                </AlertDescription>
+              </Alert>
+            )}
+
+            <form onSubmit={handleLogin} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email" className="text-xs font-bold uppercase tracking-widest text-muted-foreground">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
@@ -103,33 +132,46 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  className="bg-background border-border"
+                  className="h-12 bg-background border-border rounded-xl focus:ring-primary"
                   disabled={isLoading}
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <div className="flex justify-between items-center">
+                  <Label htmlFor="password" dangerouslySetInnerHTML={{ __html: 'Password' }} className="text-xs font-bold uppercase tracking-widest text-muted-foreground" />
+                </div>
                 <Input
                   id="password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="bg-background border-border"
+                  className="h-12 bg-background border-border rounded-xl focus:ring-primary"
                   disabled={isLoading}
                 />
               </div>
-              <Button type="submit" disabled={isLoading} className="w-full h-12 bg-primary text-background font-bold rounded-xl mt-4">
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : "Sign In"}
+              
+              <Button type="submit" disabled={isLoading || isConfigMissing} className="w-full h-14 bg-primary text-background hover:bg-primary/90 font-bold rounded-xl text-lg transition-all active:scale-95 shadow-lg shadow-primary/20">
+                {isLoading ? <Loader2 className="w-6 h-6 animate-spin" /> : "Verify Identity"}
               </Button>
             </form>
 
-            <div className="mt-8">
-              <Alert variant="default" className="bg-primary/5 border-primary/20">
+            {debugError && (
+              <div className="mt-6 p-4 bg-red-500/5 border border-red-500/20 rounded-xl">
+                <p className="text-[10px] font-code text-red-400 break-all">
+                  <b>System Log:</b> {debugError}
+                </p>
+              </div>
+            )}
+
+            <div className="mt-8 pt-8 border-t border-border/50">
+              <Alert variant="default" className="bg-primary/5 border-primary/10">
                 <AlertCircle className="h-4 w-4 text-primary" />
-                <AlertTitle className="text-xs font-bold uppercase tracking-wider">Note</AlertTitle>
-                <AlertDescription className="text-[10px] text-muted-foreground leading-relaxed">
-                  Ensure <b>Email/Password</b> is enabled in your Firebase Console Authentication settings and at least one user is created.
+                <AlertTitle className="text-[10px] font-bold uppercase tracking-widest">Setup Instructions</AlertTitle>
+                <AlertDescription className="text-[10px] text-muted-foreground leading-relaxed mt-1">
+                  1. Enable <b>Email/Password</b> in Firebase Auth.<br />
+                  2. Create a user in the <b>Users</b> tab.<br />
+                  3. Ensure <code>NEXT_PUBLIC_FIREBASE_API_KEY</code> is set.
                 </AlertDescription>
               </Alert>
             </div>
