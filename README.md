@@ -26,6 +26,32 @@ npm run dev
 ```
 Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
 
+## Deployment to GitHub
+
+To push this project to your repository at `https://github.com/ManasGarge22/getitwebbed/`, follow these steps in your terminal:
+
+1. **Initialize Git** (if not already initialized):
+   ```bash
+   git init
+   ```
+
+2. **Add the remote origin**:
+   ```bash
+   git remote add origin https://github.com/ManasGarge22/getitwebbed.git
+   ```
+
+3. **Stage and commit your files**:
+   ```bash
+   git add .
+   git commit -m "Initial commit from GetItWebbed Starter"
+   ```
+
+4. **Push to the main branch**:
+   ```bash
+   git branch -M main
+   git push -u origin main
+   ```
+
 ## Project Structure
 - `src/app`: Next.js App Router pages and layouts.
 - `src/components`: Reusable UI components and section layouts.
