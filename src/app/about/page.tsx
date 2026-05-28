@@ -1,38 +1,46 @@
 
 "use client"
 
-import React from 'react'
+import React, { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { Instagram, Linkedin, Github } from 'lucide-react'
-import { PlaceHolderImages } from '@/lib/placeholder-images'
+import { Instagram, Linkedin, Github, Loader2 } from 'lucide-react'
+import { useFirestore, useCollection } from '@/firebase'
+import { collection, query, orderBy } from 'firebase/firestore'
 
-const founders = [
+const fallbackFounders = [
   {
     name: "Manas Garge",
     role: "Co-Founder & Data Engineer",
-    image: PlaceHolderImages.find(img => img.id === 'manas-founder')?.imageUrl || "https://picsum.photos/seed/manas/600/800",
-    hint: PlaceHolderImages.find(img => img.id === 'manas-founder')?.imageHint || "professional man",
-    socials: {
-      insta: "https://www.instagram.com/gridrunner22/",
-      linkedin: "https://www.linkedin.com/in/manasgarge/",
-      github: "https://github.com/ManasGarge22"
-    }
+    imageUrl: "https://picsum.photos/seed/manas/600/800",
+    imageHint: "professional man",
+    instagram: "https://www.instagram.com/gridrunner22/",
+    linkedin: "https://www.linkedin.com/in/manasgarge/",
+    github: "https://github.com/ManasGarge22"
   },
   {
     name: "Avdhut Bhokare",
     role: "Co-Founder & Developer",
-    image: PlaceHolderImages.find(img => img.id === 'avdhut-founder')?.imageUrl || "https://picsum.photos/seed/avdhut/600/800",
-    hint: PlaceHolderImages.find(img => img.id === 'avdhut-founder')?.imageHint || "professional man",
-    socials: {
-      insta: "https://www.instagram.com/adventure._.vlogs_/",
-      linkedin: "https://www.linkedin.com/in/avdhut-bhokare-9a33a0215",
-      github: "https://github.com/AvdhutBhokare"
-    }
+    imageUrl: "https://picsum.photos/seed/avdhut/600/800",
+    imageHint: "professional man",
+    instagram: "https://www.instagram.com/adventure._.vlogs_/",
+    linkedin: "https://www.linkedin.com/in/avdhut-bhokare-9a33a0215",
+    github: "https://github.com/AvdhutBhokare"
   }
 ]
 
 export default function AboutPage() {
+  const db = useFirestore()
+  
+  const membersQuery = useMemo(() => {
+    if (!db) return null
+    return query(collection(db, 'members'), orderBy('order', 'asc'))
+  }, [db])
+  
+  const { data: members, loading } = useCollection(membersQuery)
+
+  const displayMembers = members && members.length > 0 ? members : fallbackFounders
+
   return (
     <div className="pt-32 pb-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
@@ -60,46 +68,57 @@ export default function AboutPage() {
             <h2 className="text-4xl md:text-6xl font-headline font-bold mb-4">Meet the Founders</h2>
             <p className="text-muted-foreground">The visionaries behind GetItWebbed.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-4xl mx-auto">
-            {founders.map((founder, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="group"
-              >
-                <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden mb-6 border border-border">
-                  <Image
-                    src={founder.image}
-                    alt={founder.name}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    data-ai-hint={founder.hint}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
-                </div>
-                <div className="text-center space-y-4">
-                  <div>
-                    <h3 className="text-2xl font-headline font-bold">{founder.name}</h3>
-                    <p className="text-primary font-code text-sm uppercase tracking-widest">{founder.role}</p>
+          
+          {loading ? (
+            <div className="flex justify-center py-20"><Loader2 className="w-10 h-10 animate-spin text-primary" /></div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
+              {displayMembers.map((founder, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group"
+                >
+                  <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden mb-6 border border-border">
+                    <Image
+                      src={founder.imageUrl}
+                      alt={founder.name}
+                      fill
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
+                      data-ai-hint={founder.imageHint || "professional profile"}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-60" />
                   </div>
-                  <div className="flex justify-center gap-4">
-                    <a href={founder.socials.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
-                      <Linkedin className="w-5 h-5" />
-                    </a>
-                    <a href={founder.socials.insta} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
-                      <Instagram className="w-5 h-5" />
-                    </a>
-                    <a href={founder.socials.github} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
-                      <Github className="w-5 h-5" />
-                    </a>
+                  <div className="text-center space-y-4">
+                    <div>
+                      <h3 className="text-2xl font-headline font-bold">{founder.name}</h3>
+                      <p className="text-primary font-code text-sm uppercase tracking-widest">{founder.role}</p>
+                    </div>
+                    <div className="flex justify-center gap-4">
+                      {founder.linkedin && (
+                        <a href={founder.linkedin} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
+                          <Linkedin className="w-5 h-5" />
+                        </a>
+                      )}
+                      {founder.instagram && (
+                        <a href={founder.instagram} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
+                          <Instagram className="w-5 h-5" />
+                        </a>
+                      )}
+                      {founder.github && (
+                        <a href={founder.github} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-background transition-all">
+                          <Github className="w-5 h-5" />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </section>
 
         {/* Innovation Section */}

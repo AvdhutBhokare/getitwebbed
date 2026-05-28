@@ -1,3 +1,4 @@
+
 "use client"
 
 import React, { useEffect, useState, useMemo } from 'react'
@@ -9,7 +10,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Loader2, Plus, Trash2, LogOut, LayoutDashboard, Briefcase, Award, Mail, Phone, Calendar as CalendarIcon, Wallet, MessageSquare } from 'lucide-react'
+import { Loader2, Plus, Trash2, LogOut, LayoutDashboard, Briefcase, Award, Mail, Phone, Calendar as CalendarIcon, Wallet, MessageSquare, Users, UserPlus } from 'lucide-react'
 import { toast } from '@/hooks/use-toast'
 import { format } from 'date-fns'
 
@@ -25,6 +26,15 @@ export default function AdminPanel() {
     description: '',
     imageUrl: '',
     imageHint: ''
+  })
+  const [newMember, setNewMember] = useState({
+    name: '',
+    role: '',
+    imageUrl: '',
+    imageHint: '',
+    linkedin: '',
+    instagram: '',
+    github: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -53,6 +63,12 @@ export default function AdminPanel() {
     return query(collection(db, 'enquiries'), orderBy('createdAt', 'desc'))
   }, [db])
   const { data: enquiries, loading: enquiriesLoading } = useCollection(enquiriesQuery)
+
+  const membersQuery = useMemo(() => {
+    if (!db) return null
+    return query(collection(db, 'members'), orderBy('order', 'asc'))
+  }, [db])
+  const { data: members, loading: membersLoading } = useCollection(membersQuery)
 
   if (userLoading) {
     return (
@@ -103,6 +119,25 @@ export default function AdminPanel() {
     }
   }
 
+  const handleAddMember = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!db || !newMember.name.trim()) return
+    setIsSubmitting(true)
+    try {
+      await addDoc(collection(db, 'members'), {
+        ...newMember,
+        order: (members?.length || 0) + 1,
+        createdAt: serverTimestamp()
+      })
+      setNewMember({ name: '', role: '', imageUrl: '', imageHint: '', linkedin: '', instagram: '', github: '' })
+      toast({ title: "Team member added successfully" })
+    } catch (e: any) {
+      toast({ variant: "destructive", title: "Failed to add member", description: e.message })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   const handleDelete = async (coll: string, id: string) => {
     if (!db) return
     if (!confirm("Are you sure you want to delete this item?")) return
@@ -137,6 +172,9 @@ export default function AdminPanel() {
           </TabsTrigger>
           <TabsTrigger value="projects" className="flex-1 md:flex-none rounded-lg px-8 py-3 data-[state=active]:bg-primary data-[state=active]:text-background">
             <Briefcase className="w-4 h-4 mr-2" /> Projects
+          </TabsTrigger>
+          <TabsTrigger value="members" className="flex-1 md:flex-none rounded-lg px-8 py-3 data-[state=active]:bg-primary data-[state=active]:text-background">
+            <Users className="w-4 h-4 mr-2" /> About Team
           </TabsTrigger>
           <TabsTrigger value="brands" className="flex-1 md:flex-none rounded-lg px-8 py-3 data-[state=active]:bg-primary data-[state=active]:text-background">
             <Award className="w-4 h-4 mr-2" /> Brands
@@ -257,6 +295,68 @@ export default function AdminPanel() {
                     <p className="text-xs text-muted-foreground uppercase font-code tracking-wider">{p.category}</p>
                   </div>
                   <Button variant="ghost" size="icon" onClick={() => handleDelete('projects', p.id)} className="text-muted-foreground hover:text-destructive">
+                    <Trash2 className="w-4 h-4" />
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+
+        <TabsContent value="members" className="space-y-8">
+          <Card className="bg-muted/20 border-border">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2"><UserPlus className="w-5 h-5" /> Add Team Member</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleAddMember} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <Label>Full Name</Label>
+                  <Input value={newMember.name} onChange={e => setNewMember({...newMember, name: e.target.value})} required placeholder="John Doe" />
+                </div>
+                <div className="space-y-2">
+                  <Label>Role</Label>
+                  <Input value={newMember.role} onChange={e => setNewMember({...newMember, role: e.target.value})} required placeholder="Co-Founder & Developer" />
+                </div>
+                <div className="space-y-2">
+                  <Label>Image URL</Label>
+                  <Input value={newMember.imageUrl} onChange={e => setNewMember({...newMember, imageUrl: e.target.value})} required placeholder="https://picsum.photos/seed/member/600/800" />
+                </div>
+                <div className="space-y-2">
+                  <Label>LinkedIn URL</Label>
+                  <Input value={newMember.linkedin} onChange={e => setNewMember({...newMember, linkedin: e.target.value})} placeholder="https://linkedin.com/in/..." />
+                </div>
+                <div className="space-y-2">
+                  <Label>Instagram URL</Label>
+                  <Input value={newMember.instagram} onChange={e => setNewMember({...newMember, instagram: e.target.value})} placeholder="https://instagram.com/..." />
+                </div>
+                <div className="space-y-2">
+                  <Label>Github URL</Label>
+                  <Input value={newMember.github} onChange={e => setNewMember({...newMember, github: e.target.value})} placeholder="https://github.com/..." />
+                </div>
+                <div className="md:col-span-2 lg:col-span-3">
+                  <Button type="submit" disabled={isSubmitting} className="w-full bg-primary text-background font-bold h-12">
+                    {isSubmitting ? <Loader2 className="animate-spin" /> : <><Plus className="w-4 h-4 mr-2" /> Add Member</>}
+                  </Button>
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {membersLoading ? (
+              <div className="col-span-full py-20 flex justify-center"><Loader2 className="animate-spin text-primary" /></div>
+            ) : members?.map(m => (
+              <Card key={m.id} className="bg-muted/10 border-border overflow-hidden group">
+                <div className="aspect-[3/4] relative bg-muted overflow-hidden">
+                  <img src={m.imageUrl} alt={m.name} className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" />
+                </div>
+                <CardContent className="p-4 flex justify-between items-center bg-background/50 backdrop-blur-sm">
+                  <div>
+                    <h3 className="font-bold text-sm">{m.name}</h3>
+                    <p className="text-[10px] text-muted-foreground uppercase font-code">{m.role}</p>
+                  </div>
+                  <Button variant="ghost" size="icon" onClick={() => handleDelete('members', m.id)} className="text-muted-foreground hover:text-destructive h-8 w-8">
                     <Trash2 className="w-4 h-4" />
                   </Button>
                 </CardContent>

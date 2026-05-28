@@ -65,6 +65,22 @@
         "description": { "type": "string" },
         "createdAt": { "type": "string", "format": "date-time" }
       }
+    },
+    "Member": {
+      "title": "Member",
+      "description": "A team member or founder profile.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "imageUrl": { "type": "string" },
+        "imageHint": { "type": "string" },
+        "order": { "type": "number" },
+        "linkedin": { "type": "string" },
+        "instagram": { "type": "string" },
+        "github": { "type": "string" }
+      },
+      "required": ["name", "role", "imageUrl"]
     }
   },
   "auth": {
@@ -82,6 +98,10 @@
     "/enquiries/{enquiryId}": {
       "schema": "#/entities/Enquiry",
       "description": "Collection of submitted enquiries."
+    },
+    "/members/{memberId}": {
+      "schema": "#/entities/Member",
+      "description": "Collection of team members/founders."
     }
   }
 }
