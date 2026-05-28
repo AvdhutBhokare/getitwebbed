@@ -52,7 +52,7 @@ export const Navbar = () => {
             </Link>
           ))}
           <Button asChild variant="outline" className="border-primary/50 hover:bg-primary hover:text-background transition-all rounded-full px-6">
-            <Link href="/enquiry">Let's Talk</Link>
+            <Link href="/enquiry">Get Quote</Link>
           </Button>
         </div>
 

@@ -55,6 +55,7 @@ export const Footer = () => {
                 </a>
               </li>
               <li>+91 98670 43280</li>
+              <li>+91 70404 50513</li>
             </ul>
           </div>
         </div>
