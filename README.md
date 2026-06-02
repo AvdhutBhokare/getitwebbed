@@ -59,20 +59,12 @@ RESEND_API_KEY=your_resend_api_key
 
 ---
 
-## ☁️ Deployment
+## ☁️ Deploy on Vercel
 
-### ⚠️ Important: Use "App Hosting", not "Hosting"
-Standard **Firebase Hosting** is for static sites. Since this app uses Next.js Server Features (like Server Actions for emails), you **MUST** use **Firebase App Hosting**.
-
-1.  **Upgrade to Blaze Plan**: Firebase App Hosting requires your project to be on the **Pay-as-you-go (Blaze) plan**. This allows Firebase to provision the server resources needed for Next.js. Most small sites stay within the free tier.
-2.  **Push to GitHub**: Push your local code to a private or public GitHub repository.
-3.  **Connect to Firebase**:
-    *   In the Firebase Console sidebar, click **Build** > **App Hosting**.
-    *   Click **Get Started** and connect your GitHub account.
-    *   Select your repository and branch.
-4.  **Configure Environment Variables**:
-    *   During setup (or after in the App Hosting settings), add your environment variables (`GOOGLE_GENAI_API_KEY`, `RESEND_API_KEY`, etc.) so they work in production.
-5.  **Finish**: Firebase will automatically detect Next.js, build your site, and deploy it. Every time you push to GitHub, it will update automatically.
+1. Push this folder to GitHub.
+2. Import the repo at [vercel.com/new](https://vercel.com/new) (set **Root Directory** to `getitwebbed` if the repo root is the parent folder).
+3. Add environment variables from `.env.example` in the Vercel project settings.
+4. Deploy, then add your Vercel URL under Firebase **Authentication → Authorized domains**.
 
 ---
 
